@@ -1,0 +1,13 @@
+Package: psF1
+Type: Package
+Title: Interval Estimation, Hypothesis Testing, and Power and Sample Size Calculation for F-beta Scores and Differences in F-beta Scores  
+Version: 0.4.7
+Date: 2025-05-28
+Author: Chih-Yuan Hsu
+Maintainer: Chih-Yuan Hsu <chih-yuan.hsu@vumc.org>
+Description: A tool for performing interval estimation, hypothesis testing, and power and sample size calculation for F-beta scores and differences in F-beta scores.
+License: GPL-2 | GPL-3
+Imports: stats, utils, graphics
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Depends: R (>= 3.1)
