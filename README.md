@@ -23,7 +23,7 @@ library(psF1)
 
 Suppose that a test set containing N=58 classification instances and
 S=12 positives is used to evaluate the F1 score of a new classifier. The
-observed TP=10 and FP=1.
+observed TP=10 (True positive) and FP=1 (False positive).
 
 ### Confidence interval
 
@@ -42,8 +42,8 @@ ciFbOne(d=10, b=1, N=58, s=12,
 ### Hypothesis testing
 
 A two-sided test is used to detect whether the F1 score of the new
-classifier differs from a target F1 score defined by pp=9/11 and
-ps=0.75.
+classifier differs from a target F1 score defined by pp=9/11 (precision, also PPV) and
+ps=0.75 (sensitivity, also recall).
 
 ``` r
 testFbOne(d=10, b=1, N=58, s=12,
