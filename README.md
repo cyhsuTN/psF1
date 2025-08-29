@@ -9,8 +9,8 @@ Download psF1_0.4.7.tar.gz and locally install it, or execute the
 following code:
 
 ``` r
-#library(devtools)
-#install_github("cyhsuTN/psF1")
+library(devtools)
+install_github("cyhsuTN/psF1")
 ```
 
 ## Usage
