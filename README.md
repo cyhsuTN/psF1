@@ -26,7 +26,7 @@ library(psF1)
 ## F1 score of a single classifier
 
 Suppose that a test set containing N=58 classification instances and
-S=12 positives is used to evaluate the F1 score of a new classifier. The
+S=12 positives is used to evaluate the F1 (beta=1) score of a new classifier. The
 observed TP=10 (True positive) and FP=1 (False positive).
 
 ### Confidence interval
