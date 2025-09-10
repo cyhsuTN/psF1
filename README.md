@@ -3,6 +3,10 @@ calculation for F-beta scores and differences in F-beta scores
 ================
 Chih-Yuan Hsu
 
+Sept/10/2025
+
+Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2025). A Unified Framework for Statistical Inference and Power Analysis of Single and Comparative F-beta Scores. Under review.
+
 ## Installation
 
 Download psF1_0.4.7.tar.gz and locally install it, or execute the
