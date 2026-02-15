@@ -29,12 +29,45 @@ Suppose that a test set containing N=58 classification instances and
 S=12 positives is used to evaluate the F1 (beta=1) score of a new classifier. The
 observed TP=10 (True positive) and FP=1 (False positive).
 
-| Actual \ Predicted | Negative | Positive |    |
-|--------------------|----------|----------|----|
-| Negative           | 45       | 1        | 46 |
-| Positive           | 2        | 10       | 12 |
-| **Total**          | 47       | 11       | 58 |
-
+<table>
+  <tr>
+    <!-- 1st header row -->
+    <th></th>
+    <th></th>
+    <th colspan="2" style="text-align:center;">Predicted</th>
+    <th></th> <!-- header placeholder for the Total column -->
+  </tr>
+  <tr>
+    <!-- 2nd header row -->
+    <th></th>
+    <th></th>
+    <th>Negative</th>
+    <th>Positive</th>
+    <th>Total</th>
+  </tr>
+  <tr>
+    <!-- data rows -->
+    <th rowspan="2">Actual</th>
+    <th>Negative</th>
+    <td>45</td>
+    <td>1</td>
+    <td>46</td> <!-- row total -->
+  </tr>
+  <tr>
+    <th>Positive</th>
+    <td>2</td>
+    <td>10</td>
+    <td>12</td> <!-- row total -->
+  </tr>
+  <tr>
+    <!-- bottom totals row -->
+    <th></th>
+    <th>Total</th>
+    <td>47</td>
+    <td>11</td>
+    <td>58</td> <!-- grand total -->
+  </tr>
+</table>
 
 
 ### Confidence interval
