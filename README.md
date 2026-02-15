@@ -1,11 +1,11 @@
 psF1: Interval estimation, hypothesis testing, and power and sample size
-calculation for F-beta scores and differences in F-beta scores
+calculation for single and comparative $F_{\beta}$ scores
 ================
 Chih-Yuan Hsu
 
 Feb/14/2026
 
-Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2026). A Unified Framework for Statistical Inference and Power Analysis of Single and Comparative F-beta Scores. Under review.
+Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2026). A Unified Framework for Statistical Inference and Power Analysis of Single and Comparative $F_{\beta}$ Scores. Under review.
 
 ## Installation
 
