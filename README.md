@@ -87,8 +87,8 @@ ciFbOne(d=10, b=1, N=58, s=12,
 ### Hypothesis testing
 
 A two-sided test is used to detect whether the F1 score of the new
-classifier differs from a target F1 score of 0.783 (Fb) defined by pp=9/11 (precision, also PPV) and
-ps=0.75 (sensitivity, also recall).
+classifier differs from a target F1 score defined by pp=9/11 (precision, also PPV) and
+ps=0.75 (sensitivity, also recall). The precision and sensitivity values yield a target F1 score of 0.783, as shown in the output Fb.
 
 ``` r
 testFbOne(d=10, b=1, N=58, s=12,
@@ -188,17 +188,14 @@ c(N=round(58*8.2), s=round(12*8.2))
     ##   N   s 
     ## 476  98
 
-## Comparison in F1 scores of two classifiers
+## Comparison of F1 scores between two classifiers
 
-Suppose that a test set containing N=58 classification instances and
-S=12 positives is used to compare the F1 scores of two classifiers. The
-observed TP for classifier 1 and 2 are 10 and 9, respectively, and the
-observed FP are 1 and 2.
+Suppose the same dataset (N=58 and S=12) is used for comparing the F1 scores of two classifiers. The observed true positives for classifier 1 and 2 are 10 (d1) and 9 (d2), respectively, and the observed false positives are 1 (b1) and 2 (b2).
 
 ### Confidence interval
 
-What is the 95% confidence interval for the difference between the two
-classifiers’ F1 scores?
+The 95% confidence interval for the difference between the two
+classifiers’ F1 scores is calculated as follows:
 
 ``` r
 ciFbTwo(d1=10, b1=1, 
