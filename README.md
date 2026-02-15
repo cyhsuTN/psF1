@@ -29,36 +29,11 @@ Suppose that a test set containing N=58 classification instances and
 S=12 positives is used to evaluate the F1 (beta=1) score of a new classifier. The
 observed TP=10 (True positive) and FP=1 (False positive).
 
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th colspan="2" style="text-align:center;">Predicted</th>
-  </tr>
-  <tr>
-    <th></th>
-    <th></th>
-    <th>Negative</th>
-    <th>Positive</th>
-  </tr>
-  <tr>
-    <th rowspan="2">Actual</th>
-    <th>Negative</th>
-    <td>45</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <th>Positive</th>
-    <td>2</td>
-    <td>10</td>
-  </tr>
-  <tr>
-    <th></th>
-    <th></th>
-    <td>47</td>
-    <td>11</td>
-  </tr>
-</table>
+| Actual \ Predicted | Negative | Positive |    |
+|--------------------|----------|----------|----|
+| Negative           | 45       | 1        | 46 |
+| Positive           | 2        | 10       | 12 |
+| **Total**          | 47       | 11       | 58 |
 
 
 
