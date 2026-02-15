@@ -32,35 +32,34 @@ observed TP=10 (True positive) and FP=1 (False positive).
 <table>
   <tr>
     <th></th>
-    <th colspan="3" style="text-align:center;">Predicted</th>
+    <th></th>
+    <th colspan="2" style="text-align:center;">Predicted</th>
   </tr>
   <tr>
     <th></th>
+    <th></th>
     <th>Negative</th>
     <th>Positive</th>
-    <th></th>
   </tr>
   <tr>
     <th rowspan="2">Actual</th>
     <th>Negative</th>
     <td>45</td>
     <td>1</td>
-    <td>46</td>
   </tr>
   <tr>
     <th>Positive</th>
     <td>2</td>
     <td>10</td>
-    <td>12</td>
   </tr>
   <tr>
     <th></th>
     <th></th>
     <td>47</td>
     <td>11</td>
-    <td>58</td>
   </tr>
 </table>
+
 
 
 ### Confidence interval
