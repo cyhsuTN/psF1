@@ -25,9 +25,8 @@ library(psF1)
 
 ## F1 score of a single classifier
 
-Suppose that a test set containing N=58 classification instances and
-S=12 positives is used to evaluate the F1 (beta=1) score of a new classifier. The
-observed TP=10 (True positive) and FP=1 (False positive).
+Suppose we observe the following confusion‑matrix outcomes from a classifier:
+Among 58 total classification instances (N), 12 (S) are actual positives and the remaining 46 (N - S) are negatives. The classifier identifies 10 true positives (d) and 1 false positive (b).
 
 <table>
   <tr>
@@ -49,23 +48,23 @@ observed TP=10 (True positive) and FP=1 (False positive).
     <!-- data rows -->
     <th rowspan="2">Actual</th>
     <th>Negative</th>
-    <td>45</td>
-    <td>1</td>
-    <td>46</td> <!-- row total -->
+    <td style="text-align:right; padding-right:8px;">45 (a, TN)</td>
+    <td style="text-align:right; padding-right:8px;">1 (b, FP)</td>
+    <td style="text-align:left">46 (N - S)</td> <!-- row total -->
   </tr>
   <tr>
     <th>Positive</th>
-    <td>2</td>
-    <td>10</td>
-    <td>12</td> <!-- row total -->
+    <td style="text-align:right; padding-right:8px;">2 (c, FN)</td>
+    <td style="text-align:right; padding-right:8px;">10 (d, TP)</td>
+    <td style="text-align:left">12 (S)</td> <!-- row total -->
   </tr>
   <tr>
     <!-- bottom totals row -->
     <th></th>
     <th>Total</th>
-    <td>47</td>
-    <td>11</td>
-    <td>58</td> <!-- grand total -->
+    <td style="text-align:center">47</td>
+    <td style="text-align:center">11</td>
+    <td style="text-align:left">58 (N)</td> <!-- grand total -->
   </tr>
 </table>
 
