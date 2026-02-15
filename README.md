@@ -48,23 +48,23 @@ Among 58 total classification instances (N), 12 (S) are actual positives and the
     <!-- data rows -->
     <th rowspan="2">Actual</th>
     <th>Negative</th>
-    <td style="text-align:right; padding-right:8px;">45 (a, TN)</td>
-    <td style="text-align:right; padding-right:8px;">1 (b, FP)</td>
-    <td style="text-align:left">46 (N - S)</td> <!-- row total -->
+    <td style="text-align:right;">45 (a, TN)</td>
+    <td style="text-align:right;"> 1 (b, FP)</td>
+    <td style="text-align:left;">46 (N - S)</td> <!-- row total -->
   </tr>
   <tr>
     <th>Positive</th>
-    <td style="text-align:right; padding-right:8px;">2 (c, FN)</td>
-    <td style="text-align:right; padding-right:8px;">10 (d, TP)</td>
-    <td style="text-align:left">12 (S)</td> <!-- row total -->
+    <td style="text-align:right;"> 2 (c, FN)</td>
+    <td style="text-align:right;">10 (d, TP)</td>
+    <td style="text-align:left;">12 (S)</td> <!-- row total -->
   </tr>
   <tr>
     <!-- bottom totals row -->
     <th></th>
     <th>Total</th>
-    <td style="text-align:center">47</td>
-    <td style="text-align:center">11</td>
-    <td style="text-align:left">58 (N)</td> <!-- grand total -->
+    <td style="text-align:center;">47</td>
+    <td style="text-align:center;">11</td>
+    <td style="text-align:left;">58 (N)</td> <!-- grand total -->
   </tr>
 </table>
 
