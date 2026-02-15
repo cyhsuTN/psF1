@@ -71,8 +71,8 @@ Among 58 total classification instances (N), 12 (S) are actual positives and the
 
 ### Confidence interval
 
-What is the 95% confidence interval for the F1 score of the new
-classifier?
+The 95% confidence interval for the F1 score of the new
+classifier is calculated as follows. Fb.est is the estimated F1 score adjusted using Jeffrey’s non-informative prior, while Fb.est.raw is the estimated F1 score calculated directly as 2d/(b +d+S).
 
 ``` r
 ciFbOne(d=10, b=1, N=58, s=12,
@@ -82,6 +82,7 @@ ciFbOne(d=10, b=1, N=58, s=12,
 
     ##     Fb.est    95%CI.L    95%CI.U Fb.est.raw 
     ##  0.8400000  0.6486486  1.0000000  0.8695652
+
 
 ### Hypothesis testing
 
