@@ -87,7 +87,7 @@ ciFbOne(d=10, b=1, N=58, s=12,
 ### Hypothesis testing
 
 A two-sided test is used to detect whether the F1 score of the new
-classifier differs from a target F1 score defined by pp=9/11 (precision, also PPV) and
+classifier differs from a target F1 score of 0.783 (Fb) defined by pp=9/11 (precision, also PPV) and
 ps=0.75 (sensitivity, also recall).
 
 ``` r
