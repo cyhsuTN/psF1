@@ -3,13 +3,13 @@ calculation for single and comparative $F_{\beta}$ scores
 ================
 Chih-Yuan Hsu
 
-Feb/14/2026
+Feb/20/2026
 
 Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2026). A Unified Framework for Statistical Inference and Power Analysis of Single and Comparative $F_{\beta}$ Scores. Under review.
 
 ## Installation
 
-Download psF1_0.5.0.tar.gz and locally install it, or execute the
+Download psF1_0.5.1.tar.gz and locally install it, or execute the
 following code:
 
 ``` r
