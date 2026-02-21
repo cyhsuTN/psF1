@@ -1,3 +1,6 @@
+- Version 0.5.1 
+  1. Add warning messages when the normal approximation is applied to very small sample sizes 
+
 - Version 0.5.0 
   1. Add "auto" option in the normal.approx argument
   2. Add function widthCI.R for precision analysis
