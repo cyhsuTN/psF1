@@ -72,6 +72,14 @@ ciFbTwo <- function(d1=9, b1=2,
 
   if(normal.approx=="TRUE") {
 
+    if(s < 10) {
+      print("Warning: a normal approximation is used. Suggest using the exact approach because s < 10.")
+    }
+
+    if(length(xf11) < 1E+3 & length(xf12) < 1E+3) {
+      print("Warning: a normal approximation is used. The numbers of mass points for f1 in both classifiers are below 1E+3.")
+    }
+
     mean1 <- sum(xf11 * yf11)
     var1 <- sum(xf11^2 * yf11) - mean1^2
 
