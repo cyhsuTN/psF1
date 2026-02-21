@@ -106,7 +106,13 @@ One.Classifier.Cond.Test.beta <- function(d=9, b=2, N=50, s=20,
 
   if(normal.approx=="TRUE") {
 
-  #if( length(f1s) > 1E+5 & normal.approx ) {
+    if(s < 10) {
+      print("Warning: a normal approximation is used. Suggest using the exact approach because s < 10.")
+    }
+
+    if(length(f1s) < 1E+5) {
+      print("Warning: a normal approximation is used. The number of mass points for f1 is below 1E+5.")
+    }
 
     mean1 <- sum(f1s * pf1)
     var1 <- sum(f1s^2 * pf1) - mean1^2
