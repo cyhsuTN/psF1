@@ -5,7 +5,7 @@ Chih-Yuan Hsu
 
 Feb/20/2026
 
-Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2026). A Unified Framework for Statistical Inference and Power Analysis of Single and Comparative $F_{\beta}$ Scores. Under review.
+Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2026). A Unified Framework for Statistical Inference and Power Analysis of Single and Comparative $F_{\beta}$ Scores. Statistics in Medicine. 45(10-12):e70557. https://doi.org/10.1002/sim.70557
 
 ## Installation
 
