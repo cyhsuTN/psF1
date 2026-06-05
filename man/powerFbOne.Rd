@@ -2,7 +2,7 @@
 % Please edit documentation in R/powerFbOne.R
 \name{powerFbOne}
 \alias{powerFbOne}
-\title{Power Calculation for F.beta of One Classifier}
+\title{Power Calculation for a Single F.beta Score}
 \usage{
 powerFbOne(
   N = 50,
@@ -46,7 +46,7 @@ c("two.sided", "less", "greater").}
 \item{alpha.level}{alpha level.}
 }
 \description{
-A function to calculate power for testing the F.beta of one classifier.
+A function to calculate power for testing a single F.beta score.
 }
 \examples{
 # powerFbOne(N=50, s=35,
