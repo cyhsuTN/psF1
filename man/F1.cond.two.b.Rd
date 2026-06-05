@@ -2,7 +2,7 @@
 % Please edit documentation in R/distFb.diff.R
 \name{F1.cond.two.b}
 \alias{F1.cond.two.b}
-\title{Distribution of the Difference between Two F Beta Scores}
+\title{Distribution of a F.beta Score Difference}
 \usage{
 F1.cond.two.b(N, s, pp1 = 9/11, ps1 = 0.75, pp2 = NULL, ps2 = NULL, beta = 1)
 }
@@ -22,7 +22,7 @@ F1.cond.two.b(N, s, pp1 = 9/11, ps1 = 0.75, pp2 = NULL, ps2 = NULL, beta = 1)
 \item{beta}{beta.}
 }
 \description{
-A function to show a distribution of the difference between two F beta scores.
+A function to show the distribution of a F.beta score difference.
 }
 \examples{
 # fbscore <- F1.cond.two.b(N=50, s=20, pp1=9/11, ps1=0.75, beta=1)
