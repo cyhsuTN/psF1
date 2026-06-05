@@ -1,6 +1,6 @@
 
-#' @title Confidence Interval Estimate for F.beta of One Classifier
-#' @description A function to calculate the CI of the F.beta of one classifier.
+#' @title Interval Estimation for a Single F.beta Score
+#' @description A function to calculate the confidence interval of a single F.beta score.
 #' @importFrom utils tail
 #' @importFrom stats qnorm
 
