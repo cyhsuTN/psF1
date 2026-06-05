@@ -1,6 +1,6 @@
 
-#' @title Distribution of F Beta Score
-#' @description A function to show a distribution of F beta score.
+#' @title Distribution of a Single F.beta Score
+#' @description A function to show the distribution of a single F.beta score.
 #' @importFrom graphics abline
 #' @importFrom utils tail
 #' @importFrom stats dbinom uniroot
