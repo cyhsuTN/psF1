@@ -2,7 +2,7 @@
 % Please edit documentation in R/distFb.R
 \name{F1.cond.b}
 \alias{F1.cond.b}
-\title{Distribution of F Beta Score}
+\title{Distribution of a Single F.beta Score}
 \usage{
 F1.cond.b(N, s, pp = 9/11, ps = 0.75, beta = 1)
 }
@@ -18,7 +18,7 @@ F1.cond.b(N, s, pp = 9/11, ps = 0.75, beta = 1)
 \item{beta}{beta.}
 }
 \description{
-A function to show a distribution of F beta score.
+A function to show the distribution of a single F.beta score.
 }
 \examples{
 # fbscore <- F1.cond.b(N=50, s=20, pp=9/11, ps=0.75, beta=1)
