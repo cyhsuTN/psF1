@@ -1,6 +1,6 @@
 
-#' @title Plot Distribution of F Beta Score
-#' @description A function to plot a distribution of F beta score.
+#' @title Plot Distributions of Single and Comparative F.beta Scores
+#' @description A function to plot the distributions of single and comparative F.beta scores.
 
 #' @param F1.score Objective from F1.cond.b or F1.cond.two.b.
 #' @param type Density or CDF to show.
