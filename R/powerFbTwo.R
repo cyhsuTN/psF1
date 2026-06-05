@@ -1,6 +1,6 @@
 
-#' @title Power Calculation for F.beta Comparison Between Two Classifiers
-#' @description A function to calculate power for testing the difference in F.beta between two classifiers.
+#' @title Power Calculation for Comparative F.beta Scores
+#' @description A function to calculate power for testing the difference in F.beta scores between two classifiers.
 #' @importFrom graphics abline
 #' @importFrom utils tail
 #' @importFrom stats dbinom uniroot pnorm qnorm qt
@@ -14,6 +14,10 @@
 #' @param Fb2 F.beta score of 2nd classifier.
 #' @param pp2 Precision of 2nd classifier.
 #' @param ps2 Sensitivity of 2nd classifier.
+#' @param N2 Number of classification instances in 2nd independent dataset
+#' used for 2nd classifier. N2 = NULL denotes a common dataset is used to
+#' compare both classifiers.
+#' @param s2 Number of positives in 2nd independent dataset.
 #' @param beta beta.
 #' @param alternative A character string specifying the alternative hypothesis:
 #' c("two.sided", "less", "greater").
@@ -32,6 +36,7 @@
 powerFbTwo <- function(N=50, s=20,
                        Fb1=0.783, pp1=NULL, ps1=NULL,
                        Fb2=0.9, pp2=NULL, ps2=NULL,
+                       N2=NULL, s2=NULL,
                        beta=1,
                        alternative=c("two.sided", "less", "greater"),
                        normal.approx=c("auto", "TRUE", "FALSE"),
@@ -39,6 +44,9 @@ powerFbTwo <- function(N=50, s=20,
 
   alternative <- match.arg(alternative)
   normal.approx <- match.arg(normal.approx)
+
+  if(is.null(N2)) {N2 <- N; s2 <- s}
+  if(is.null(s2)) s2 <- s
 
   beta2 <- beta^2
   one.plus.beta2 <- (1+beta2)
@@ -50,8 +58,8 @@ powerFbTwo <- function(N=50, s=20,
   Fb2.beta2 <- Fb2*beta2
 
 
-  z.alpha      <- (0.4*qnorm(1-alpha.level, 0, 1) + 0.6*qt(1-alpha.level,   df=N))
-  z.alpha.half <- (0.4*qnorm(1-alpha.level/2, 0, 1) + 0.6*qt(1-alpha.level/2, df=N))
+  z.alpha      <- (0.4*qnorm(1-alpha.level, 0, 1) + 0.6*qt(1-alpha.level,   df=(N+N2)/2 ))
+  z.alpha.half <- (0.4*qnorm(1-alpha.level/2, 0, 1) + 0.6*qt(1-alpha.level/2, df=(N+N2)/2 ))
 
   if(is.null(pp2) & is.null(ps2)) {
 
@@ -116,7 +124,7 @@ powerFbTwo <- function(N=50, s=20,
           xf10 <- u$xf10
           yf10 <- u$yf10
 
-          F1dist1 <- F1.cond.b(N, s, pp2, ps2, beta)
+          F1dist1 <- F1.cond.b(N2, s2, pp2, ps2, beta)
           x1 <- 1:nrow(F1dist1)
           xf11 <- F1dist1$f1s
           yf11 <- F1dist1$pf1
@@ -128,13 +136,32 @@ powerFbTwo <- function(N=50, s=20,
           pp.bar <- (pp1+pp2)/2
           ps.bar <- (ps1+ps2)/2
 
-          F1dist12 <- F1.cond.b(N, s, pp.bar, ps.bar, beta)
-          x12 <- 1:nrow(F1dist12)
-          xf112 <- F1dist12$f1s
-          yf112 <- F1dist12$pf1
+          if(N==N2 & s==s2) {
+            F1dist12 <- F1.cond.b(N, s, pp.bar, ps.bar, beta)
+            x12 <- x12_2 <- 1:nrow(F1dist12)
+            xf112 <- xf112_2 <- F1dist12$f1s
+            yf112 <- yf112_2 <- F1dist12$pf1
 
-          idx.12 <- (yf112 > 1E-6)
-          x12 <- x12[idx.12]
+            idx.12 <- (yf112 > 1E-6)
+            x12 <- x12_2 <- x12[idx.12]
+          } else {
+            F1dist12 <- F1.cond.b(N, s, pp.bar, ps.bar, beta)
+            x12 <- 1:nrow(F1dist12)
+            xf112 <- F1dist12$f1s
+            yf112 <- F1dist12$pf1
+
+            idx.12 <- (yf112 > 1E-6)
+            x12 <- x12[idx.12]
+
+            F1dist12_2 <- F1.cond.b(N2, s2, pp.bar, ps.bar, beta)
+            x12_2 <- 1:nrow(F1dist12_2)
+            xf112_2 <- F1dist12_2$f1s
+            yf112_2 <- F1dist12_2$pf1
+
+            idx.12_2 <- (yf112_2 > 1E-6)
+            x12_2 <- x12_2[idx.12_2]
+          }
+
 
           if(normal.approx=="auto" & length(xf112) > 500) normal.approx <- "TRUE"
 
@@ -145,6 +172,9 @@ powerFbTwo <- function(N=50, s=20,
             mean12 <- sum(xf112 * yf112)
             var12 <- sum(xf112^2 * yf112) - mean12^2
 
+            mean12_2 <- sum(xf112_2 * yf112_2)
+            var12_2 <- sum(xf112_2^2 * yf112_2) - mean12_2^2
+
             mean0 <- sum(xf10 * yf10)
             var0 <- sum(xf10^2 * yf10) - mean0^2
 
@@ -152,7 +182,7 @@ powerFbTwo <- function(N=50, s=20,
             var1 <- sum(xf11^2 * yf11) - mean1^2
 
             dmean.bar.00 <- 0
-            dvar.bar.00 <- (var12 + var12)
+            dvar.bar.00 <- (var12 + var12_2)
 
             dmean.bar.01 <- mean0 - mean1
             dvar.bar.01 <- (var0 + var1)
@@ -174,8 +204,8 @@ powerFbTwo <- function(N=50, s=20,
           } else {
 
             ## Null distribution
-            val1.null <- outer(x12, x12, function(d, b) xf112[d] - xf112[b])
-            val2.null <- outer(x12, x12, function(d, b) yf112[d] * yf112[b])
+            val1.null <- outer(x12, x12_2, function(d, b) xf112[d] - xf112_2[b])
+            val2.null <- outer(x12, x12_2, function(d, b) yf112[d] * yf112_2[b])
 
             pf1.null <- tapply(as.vector(val2.null), as.vector(val1.null), sum)
             pf1.null <- pf1.null[pf1.null>1E-10]
@@ -249,6 +279,7 @@ powerFbTwo <- function(N=50, s=20,
     }
     pw <- Power.Two.Classifier.Cond.Test1.beta(N=N, s=s, pp2=pp2, ps2=ps2,
                                                Fb1=Fb1, pp1=pp1, ps1=ps1,
+                                               N2=N2, s2=s2,
                                                beta=beta,
                                                alternative=alternative,
                                                normal.approx=normal.approx,
@@ -270,6 +301,7 @@ powerFbTwo <- function(N=50, s=20,
 Power.Two.Classifier.Cond.Test1.beta <- function(N=50, s=20,
                                                  pp2=0.9, ps2=0.9,
                                                  Fb1=0.783, pp1=NULL, ps1=NULL,
+                                                 N2=NULL, s2=NULL,
                                                  beta=1,
                                                  alternative=c("two.sided", "less", "greater"),
                                                  normal.approx=c("auto", "TRUE", "FALSE"),
@@ -278,6 +310,9 @@ Power.Two.Classifier.Cond.Test1.beta <- function(N=50, s=20,
   alternative <- match.arg(alternative)
   normal.approx <- match.arg(normal.approx)
 
+  if(is.null(N2)) {N2 <- N; s2 <- s}
+  if(is.null(s2)) s2 <- s
+
   beta2 <- beta^2
   one.plus.beta2 <- (1+beta2)
 
@@ -285,11 +320,11 @@ Power.Two.Classifier.Cond.Test1.beta <- function(N=50, s=20,
 
   Fb1.beta2 <- Fb1*beta2
 
-  z.alpha      <- (0.4*qnorm(1-alpha.level, 0, 1) + 0.6*qt(1-alpha.level,   df=N))
-  z.alpha.half <- (0.4*qnorm(1-alpha.level/2, 0, 1) + 0.6*qt(1-alpha.level/2, df=N))
+  z.alpha      <- (0.4*qnorm(1-alpha.level, 0, 1) + 0.6*qt(1-alpha.level,   df=(N+N2)/2  ))
+  z.alpha.half <- (0.4*qnorm(1-alpha.level/2, 0, 1) + 0.6*qt(1-alpha.level/2, df=(N+N2)/2  ))
 
 
-  F1dist1 <- F1.cond.b(N, s, pp2, ps2, beta)
+  F1dist1 <- F1.cond.b(N2, s2, pp2, ps2, beta)
   x1 <- 1:nrow(F1dist1)
   xf11 <- F1dist1$f1s
   yf11 <- F1dist1$pf1
@@ -324,13 +359,31 @@ Power.Two.Classifier.Cond.Test1.beta <- function(N=50, s=20,
         pp.bar <- (pp1+pp2)/2
         ps.bar <- (ps1+ps2)/2
 
-        F1dist12 <- F1.cond.b(N, s, pp.bar, ps.bar, beta)
-        x12 <- 1:nrow(F1dist12)
-        xf112 <- F1dist12$f1s
-        yf112 <- F1dist12$pf1
+        if(N==N2 & s==s2) {
+          F1dist12 <- F1.cond.b(N, s, pp.bar, ps.bar, beta)
+          x12 <- x12_2 <- 1:nrow(F1dist12)
+          xf112 <- xf112_2 <- F1dist12$f1s
+          yf112 <- yf112_2 <- F1dist12$pf1
 
-        idx.12 <- (yf112 > 1E-6)
-        x12 <- x12[idx.12]
+          idx.12 <- (yf112 > 1E-6)
+          x12 <- x12_2 <- x12[idx.12]
+        } else {
+          F1dist12 <- F1.cond.b(N, s, pp.bar, ps.bar, beta)
+          x12 <- 1:nrow(F1dist12)
+          xf112 <- F1dist12$f1s
+          yf112 <- F1dist12$pf1
+
+          F1dist12_2 <- F1.cond.b(N2, s2, pp.bar, ps.bar, beta)
+          x12_2 <- 1:nrow(F1dist12_2)
+          xf112_2 <- F1dist12_2$f1s
+          yf112_2 <- F1dist12_2$pf1
+
+          idx.12 <- (yf112 > 1E-6)
+          x12 <- x12[idx.12]
+
+          idx.12_2 <- (yf112_2 > 1E-6)
+          x12_2 <- x12_2[idx.12_2]
+        }
 
         if(normal.approx=="auto" & length(xf112) > 500) normal.approx <- "TRUE"
 
@@ -341,6 +394,9 @@ Power.Two.Classifier.Cond.Test1.beta <- function(N=50, s=20,
           mean12 <- sum(xf112 * yf112)
           var12 <- sum(xf112^2 * yf112) - mean12^2
 
+          mean12_2 <- sum(xf112_2 * yf112_2)
+          var12_2 <- sum(xf112_2^2 * yf112_2) - mean12_2^2
+
           mean0 <- sum(xf10 * yf10)
           var0 <- sum(xf10^2 * yf10) - mean0^2
 
@@ -348,7 +404,7 @@ Power.Two.Classifier.Cond.Test1.beta <- function(N=50, s=20,
           var1 <- sum(xf11^2 * yf11) - mean1^2
 
           dmean.bar.00 <- 0
-          dvar.bar.00 <- (var12 + var12)
+          dvar.bar.00 <- (var12 + var12_2)
 
           dmean.bar.01 <- mean0 - mean1
           dvar.bar.01 <- (var0 + var1)
@@ -369,8 +425,8 @@ Power.Two.Classifier.Cond.Test1.beta <- function(N=50, s=20,
 
         } else {
 
-          val1.null <- outer(x12, x12, function(d, b) xf112[d] - xf112[b])
-          val2.null <- outer(x12, x12, function(d, b) yf112[d] * yf112[b])
+          val1.null <- outer(x12, x12_2, function(d, b) xf112[d] - xf112_2[b])
+          val2.null <- outer(x12, x12_2, function(d, b) yf112[d] * yf112_2[b])
 
           val1.alt <- outer(x0, x1, function(d, b) xf10[d] - xf11[b])
           val2.alt <- outer(x0, x1, function(d, b) yf10[d] * yf11[b])
@@ -440,6 +496,7 @@ Power.Two.Classifier.Cond.Test1.beta <- function(N=50, s=20,
       ps1 <- Fb1.beta2*pp1/(one.plus.beta2*pp1 - Fb1)
     }
     pw <- Power.Two.Classifier.Cond.Test.beta(N=N, s=s, pp2=pp2, ps2=ps2, pp1=pp1, ps1=ps1,
+                                              N2=N2, s2=s2,
                                               beta=beta,
                                               alternative=alternative,
                                               normal.approx=normal.approx,
@@ -459,6 +516,7 @@ Power.Two.Classifier.Cond.Test1.beta <- function(N=50, s=20,
 Power.Two.Classifier.Cond.Test.beta <- function(N=50, s=20,
                                                 pp2=0.9, ps2=0.9,
                                                 pp1=9/11, ps1=0.75,
+                                                N2=NULL, s2=NULL,
                                                 beta=1,
                                                 alternative=c("two.sided", "less", "greater"),
                                                 normal.approx=c("auto", "TRUE", "FALSE"),
@@ -467,22 +525,42 @@ Power.Two.Classifier.Cond.Test.beta <- function(N=50, s=20,
   alternative <- match.arg(alternative)
   normal.approx <- match.arg(normal.approx)
 
+  if(is.null(N2)) {N2 <- N; s2 <- s}
+  if(is.null(s2)) s2 <- s
+
   ## Null distribution
   pp.bar <- (pp1+pp2)/2
   ps.bar <- (ps1+ps2)/2
 
-  F1dist12 <- F1.cond.b(N, s, pp.bar, ps.bar, beta)
-  x12 <- 1:nrow(F1dist12)
-  xf112 <- F1dist12$f1s
-  yf112 <- F1dist12$pf1
+  if(N==N2 & s==s2) {
+    F1dist12 <- F1.cond.b(N, s, pp.bar, ps.bar, beta)
+    x12 <- x12_2 <- 1:nrow(F1dist12)
+    xf112 <- xf112_2 <- F1dist12$f1s
+    yf112 <- yf112_2 <- F1dist12$pf1
 
-  idx.12 <- (yf112 > 1E-6)
-  x12 <- x12[idx.12]
+    idx.12 <- (yf112 > 1E-6)
+    x12 <- x12_2 <- x12[idx.12]
+  } else {
+    F1dist12 <- F1.cond.b(N, s, pp.bar, ps.bar, beta)
+    x12 <- 1:nrow(F1dist12)
+    xf112 <- F1dist12$f1s
+    yf112 <- F1dist12$pf1
 
+    F1dist12_2 <- F1.cond.b(N2, s2, pp.bar, ps.bar, beta)
+    x12_2 <- 1:nrow(F1dist12_2)
+    xf112_2 <- F1dist12_2$f1s
+    yf112_2 <- F1dist12_2$pf1
+
+    idx.12 <- (yf112 > 1E-6)
+    x12 <- x12[idx.12]
+
+    idx.12_2 <- (yf112_2 > 1E-6)
+    x12_2 <- x12_2[idx.12_2]
+  }
 
   ## Alternative distribution
   F1dist0 <- F1.cond.b(N, s, pp1, ps1, beta)
-  F1dist1 <- F1.cond.b(N, s, pp2, ps2, beta)
+  F1dist1 <- F1.cond.b(N2, s2, pp2, ps2, beta)
 
   x0 <- 1:nrow(F1dist0)
   x1 <- 1:nrow(F1dist1)
@@ -506,6 +584,9 @@ Power.Two.Classifier.Cond.Test.beta <- function(N=50, s=20,
     mean12 <- sum(xf112 * yf112)
     var12 <- sum(xf112^2 * yf112) - mean12^2
 
+    mean12_2 <- sum(xf112_2 * yf112_2)
+    var12_2 <- sum(xf112_2^2 * yf112_2) - mean12_2^2
+
     mean0 <- sum(xf10 * yf10)
     var0 <- sum(xf10^2 * yf10) - mean0^2
 
@@ -513,13 +594,13 @@ Power.Two.Classifier.Cond.Test.beta <- function(N=50, s=20,
     var1 <- sum(xf11^2 * yf11) - mean1^2
 
     dmean.bar.00 <- 0
-    dvar.bar.00 <- (var12 + var12)
+    dvar.bar.00 <- (var12 + var12_2)
 
     dmean.bar.01 <- mean0 - mean1
     dvar.bar.01 <- (var0 + var1)
 
-    z.alpha      <- (0.4*qnorm(1-alpha.level, 0, 1) + 0.6*qt(1-alpha.level,   df=N))
-    z.alpha.half <- (0.4*qnorm(1-alpha.level/2, 0, 1) + 0.6*qt(1-alpha.level/2, df=N))
+    z.alpha      <- (0.4*qnorm(1-alpha.level, 0, 1) + 0.6*qt(1-alpha.level,   df=(N+N2)/2 ))
+    z.alpha.half <- (0.4*qnorm(1-alpha.level/2, 0, 1) + 0.6*qt(1-alpha.level/2, df=(N+N2)/2 ))
 
     if(alternative=="greater") {
       cr <-   z.alpha * sqrt(dvar.bar.00)
@@ -537,8 +618,8 @@ Power.Two.Classifier.Cond.Test.beta <- function(N=50, s=20,
 
   } else {
 
-    val1.null <- outer(x12, x12, function(d, b) xf112[d] - xf112[b])
-    val2.null <- outer(x12, x12, function(d, b) yf112[d] * yf112[b])
+    val1.null <- outer(x12, x12_2, function(d, b) xf112[d] - xf112_2[b])
+    val2.null <- outer(x12, x12_2, function(d, b) yf112[d] * yf112_2[b])
 
     val1.alt <- outer(x0, x1, function(d, b) xf10[d] - xf11[b])
     val2.alt <- outer(x0, x1, function(d, b) yf10[d] * yf11[b])
