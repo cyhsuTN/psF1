@@ -2,7 +2,7 @@
 % Please edit documentation in R/powerFbTwo.R
 \name{powerFbTwo}
 \alias{powerFbTwo}
-\title{Power Calculation for F.beta Comparison Between Two Classifiers}
+\title{Power Calculation for Comparative F.beta Scores}
 \usage{
 powerFbTwo(
   N = 50,
@@ -13,6 +13,8 @@ powerFbTwo(
   Fb2 = 0.9,
   pp2 = NULL,
   ps2 = NULL,
+  N2 = NULL,
+  s2 = NULL,
   beta = 1,
   alternative = c("two.sided", "less", "greater"),
   normal.approx = c("auto", "TRUE", "FALSE"),
@@ -36,6 +38,12 @@ powerFbTwo(
 
 \item{ps2}{Sensitivity of 2nd classifier.}
 
+\item{N2}{Number of classification instances in 2nd independent dataset
+used for 2nd classifier. N2 = NULL denotes a common dataset is used to
+compare both classifiers.}
+
+\item{s2}{Number of positives in 2nd independent dataset.}
+
 \item{beta}{beta.}
 
 \item{alternative}{A character string specifying the alternative hypothesis:
@@ -46,7 +54,7 @@ c("two.sided", "less", "greater").}
 \item{alpha.level}{alpha level.}
 }
 \description{
-A function to calculate power for testing the difference in F.beta between two classifiers.
+A function to calculate power for testing the difference in F.beta scores between two classifiers.
 }
 \examples{
 # powerFbTwo(N=50, s=35,
