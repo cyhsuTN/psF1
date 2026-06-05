@@ -1,6 +1,6 @@
 
-#' @title Power Calculation for F.beta of One Classifier
-#' @description A function to calculate power for testing the F.beta of one classifier.
+#' @title Power Calculation for a Single F.beta Score
+#' @description A function to calculate power for testing a single F.beta score.
 #' @importFrom graphics abline
 #' @importFrom utils tail
 #' @importFrom stats dbinom uniroot qnorm pnorm
