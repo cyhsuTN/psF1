@@ -1,0 +1,11 @@
+- Version 0.6.0
+  1. Add one function: widthCI.Two for precision analysis during the study planning stage.
+  2. Replace the function widthCI with widthCI.One.
+  3. Add two arguments: N2 and s2 to allow F_beta comparison in two independent datasets. 
+
+- Version 0.5.1 
+  1. Add warning messages when the normal approximation is applied to very small sample sizes. 
+
+- Version 0.5.0 
+  1. Add "auto" option in the normal.approx argument.
+  2. Add function widthCI.R for precision analysis.
