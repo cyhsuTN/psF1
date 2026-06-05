@@ -2,7 +2,7 @@
 % Please edit documentation in R/ciFbOne.R
 \name{ciFbOne}
 \alias{ciFbOne}
-\title{Confidence Interval Estimate for F.beta of One Classifier}
+\title{Interval Estimation for a Single F.beta Score}
 \usage{
 ciFbOne(
   d = 9,
@@ -30,7 +30,7 @@ ciFbOne(
 \item{normal.approx}{normal.approx = c("auto", "TRUE", "FALSE").}
 }
 \description{
-A function to calculate the CI of the F.beta of one classifier.
+A function to calculate the confidence interval of a single F.beta score.
 }
 \examples{
 # ciFbOne(d=9, b=2, N=50, s=20)
