@@ -2,7 +2,7 @@
 % Please edit documentation in R/ciFbTwo.R
 \name{ciFbTwo}
 \alias{ciFbTwo}
-\title{Confidence Interval Estimate for F.beta Difference}
+\title{Interval Estimation for Comparative F.beta Scores}
 \usage{
 ciFbTwo(
   d1 = 9,
@@ -11,6 +11,8 @@ ciFbTwo(
   b2 = 2,
   N = 50,
   s = 20,
+  N2 = NULL,
+  s2 = NULL,
   beta = 1,
   alpha = 0.05,
   normal.approx = c("auto", "TRUE", "FALSE")
@@ -29,6 +31,12 @@ ciFbTwo(
 
 \item{s}{Number of positives.}
 
+\item{N2}{Number of classification instances in 2nd independent dataset
+used for 2nd classifier. N2 = NULL denotes a common dataset is used to
+compare both classifiers.}
+
+\item{s2}{Number of positives in 2nd independent dataset.}
+
 \item{beta}{beta.}
 
 \item{alpha}{Significance level.}
@@ -36,7 +44,7 @@ ciFbTwo(
 \item{normal.approx}{normal.approx = c("auto", "TRUE", "FALSE").}
 }
 \description{
-A function to calculate the CI of the F.beta difference between
+A function to calculate the confidence interval of the F.beta difference between
 two classifiers.
 }
 \examples{
