@@ -2,7 +2,7 @@
 % Please edit documentation in R/testFbOne.R
 \name{testFbOne}
 \alias{testFbOne}
-\title{Test for F.beta of One Classifier}
+\title{Hypothesis Testing for a Single F.beta Score}
 \usage{
 testFbOne(
   d = 9,
@@ -40,7 +40,7 @@ c("two.sided", "less", "greater").}
 \item{normal.approx}{normal.approx = c("auto", "TRUE", "FALSE").}
 }
 \description{
-A function to test the F.beta of one classifier.
+A function to test a single F.beta score.
 }
 \examples{
 # testFbOne(d=9, b=2, N=50, s=20,
