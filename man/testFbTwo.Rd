@@ -2,7 +2,7 @@
 % Please edit documentation in R/testFbTwo.R
 \name{testFbTwo}
 \alias{testFbTwo}
-\title{Test for Difference in F.beta Between Two Classifiers}
+\title{Hypothesis Testing for Comparative F.beta Scores}
 \usage{
 testFbTwo(
   d1 = 9,
@@ -12,6 +12,8 @@ testFbTwo(
   Fb0 = "est",
   N = 50,
   s = 20,
+  N2 = NULL,
+  s2 = NULL,
   beta = 1,
   alternative = c("two.sided", "less", "greater"),
   normal.approx = c("auto", "TRUE", "FALSE")
@@ -33,6 +35,12 @@ Null distribution is generated using all possible F.beta if Fb0 = NULL.}
 
 \item{s}{Number of positives.}
 
+\item{N2}{Number of classification instances in 2nd independent dataset
+used for 2nd classifier. N2 = NULL denotes a common dataset is used to
+compare both classifiers.}
+
+\item{s2}{Number of positives in 2nd independent dataset.}
+
 \item{beta}{beta.}
 
 \item{alternative}{A character string specifying the alternative hypothesis:
@@ -41,7 +49,7 @@ c("two.sided", "less", "greater").}
 \item{normal.approx}{normal.approx = c("auto", "TRUE", "FALSE").}
 }
 \description{
-A function to test the difference in F.beta between two classifiers.
+A function to test the difference in F.beta scores between two classifiers.
 }
 \examples{
 # testFbTwo(d1=13, b1=5,
