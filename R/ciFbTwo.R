@@ -1,6 +1,6 @@
 
-#' @title Confidence Interval Estimate for F.beta Difference
-#' @description A function to calculate the CI of the F.beta difference between
+#' @title Interval Estimation for Comparative F.beta Scores
+#' @description A function to calculate the confidence interval of the F.beta difference between
 #' two classifiers.
 #' @importFrom utils tail
 #' @importFrom stats qnorm
@@ -11,6 +11,10 @@
 #' @param b2 Number of false positives for 2nd classifier.
 #' @param N Number of classification instances.
 #' @param s Number of positives.
+#' @param N2 Number of classification instances in 2nd independent dataset
+#' used for 2nd classifier. N2 = NULL denotes a common dataset is used to
+#' compare both classifiers.
+#' @param s2 Number of positives in 2nd independent dataset.
 #' @param beta beta.
 #' @param alpha Significance level.
 #' @param normal.approx normal.approx = c("auto", "TRUE", "FALSE").
@@ -21,11 +25,15 @@
 ciFbTwo <- function(d1=9, b1=2,
                     d2=9, b2=2,
                     N=50, s=20,
+                    N2=NULL, s2=NULL,
                     beta=1,
                     alpha=0.05,
                     normal.approx=c("auto", "TRUE", "FALSE")) {
 
   normal.approx <- match.arg(normal.approx)
+
+  if(is.null(N2)) {N2 <- N; s2 <- s}
+  if(is.null(s2)) s2 <- s
 
   beta2 <- beta^2
   one.plus.beta2 <- (1+beta2)
@@ -37,16 +45,10 @@ ciFbTwo <- function(d1=9, b1=2,
   ps1.hat <- (d1+0.5)/(s+1)
 
   pp2.hat <- (d2+0.5)/(d2+b2+1) # Jeffrey’s non-informative prior
-  ps2.hat <- (d2+0.5)/(s+1)
-
-  #pp1.hat <- d1/(d1+b1)
-  #ps1.hat <- d1/s
-
-  #pp2.hat <- d2/(d2+b2)
-  #ps2.hat <- d2/s
+  ps2.hat <- (d2+0.5)/(s2+1)
 
   fb1.raw <- one.plus.beta2*d1/(d1 + b1 + s*beta2)
-  fb2.raw <- one.plus.beta2*d2/(d2 + b2 + s*beta2)
+  fb2.raw <- one.plus.beta2*d2/(d2 + b2 + s2*beta2)
   fb1 <- one.plus.beta2*pp1.hat*ps1.hat/(ps1.hat + pp1.hat*beta2)
   fb2 <- one.plus.beta2*pp2.hat*ps2.hat/(ps2.hat + pp2.hat*beta2)
 
@@ -54,7 +56,7 @@ ciFbTwo <- function(d1=9, b1=2,
   dfb <- fb1 - fb2
 
   F1dist1 <- F1.cond.b(N=N, s=s, pp=pp1.hat, ps=ps1.hat, beta)
-  F1dist2 <- F1.cond.b(N=N, s=s, pp=pp2.hat, ps=ps2.hat, beta)
+  F1dist2 <- F1.cond.b(N=N2, s=s2, pp=pp2.hat, ps=ps2.hat, beta)
 
   x1 <- 1:nrow(F1dist1)
   x2 <- 1:nrow(F1dist2)
@@ -72,7 +74,7 @@ ciFbTwo <- function(d1=9, b1=2,
 
   if(normal.approx=="TRUE") {
 
-    if(s < 10) {
+    if(s < 10 | s2 < 10) {
       print("Warning: a normal approximation is used. Suggest using the exact approach because s < 10.")
     }
 
