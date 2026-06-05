@@ -1,6 +1,6 @@
 
-#' @title Test for F.beta of One Classifier
-#' @description A function to test the F.beta of one classifier.
+#' @title Hypothesis Testing for a Single F.beta Score
+#' @description A function to test a single F.beta score.
 #' @importFrom graphics abline
 #' @importFrom utils tail
 #' @importFrom stats dbinom uniroot pnorm
@@ -76,7 +76,7 @@ testFbOne <- function(d=9, b=2, N=50, s=20,
                                          normal.approx=normal.approx)
   }
 
-  round(out, 5)
+  round(out, 8)
 
 }
 
