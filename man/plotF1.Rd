@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotF1.R
 \name{plotF1}
 \alias{plotF1}
-\title{Plot Distribution of F Beta Score}
+\title{Plot Distributions of Single and Comparative F.beta Scores}
 \usage{
 plotF1(
   F1.score,
@@ -27,7 +27,7 @@ plotF1(
 \item{...}{Arguments in graphics::plot function.}
 }
 \description{
-A function to plot a distribution of F beta score.
+A function to plot the distributions of single and comparative F.beta scores.
 }
 \examples{
 # fbscore <- F1.cond.b(N=50, s=20, pp=9/11, ps=0.75, beta=1)
