@@ -20,6 +20,7 @@ paCalculation <- function(N, s, pp=9/11, ps=0.75, beta=1) {
   s.beta2 <- s*beta2
 
   Fb <- one.plus.beta2*pp*ps/(pp*beta2+ps)
+  if(is.na(Fb)) Fb <- 0
 
   if(ps>1 | pp>1) {
     stop(paste0("pp > 1 or ps > 1"))
@@ -53,13 +54,11 @@ paCalculation <- function(N, s, pp=9/11, ps=0.75, beta=1) {
     details <- NULL
   } else if(test1(0) < Fb) {
     print(paste0("Warning: no value of pa satisfies Fb with ", "pp=", round(pp,2), " and ps=", round(ps,2),
-                 #". Fb cannot be larger than ", round(test1(0), 2),
-                 ". Force pa = 0 for the pp and ps."))
+                 ". Force pa = 0."))
     pa <- 0; details <- NULL
   } else if(test1(1) > Fb) {
     print(paste0("Warning: no value of pa satisfies Fb with ", "pp=", round(pp,2), " and ps=", round(ps,2),
-                 #". Fb cannot be less than ", round(test1(1), 2),
-                 ". Force pa = 1 for the pp and ps."))
+                 ". Force pa = 1."))
     pa <- 1; details <- NULL
   } else {
     f.pa <- function(b) test1(b) - Fb
