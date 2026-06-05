@@ -1,6 +1,6 @@
 
-#' @title Distribution of the Difference between Two F Beta Scores
-#' @description A function to show a distribution of the difference between two F beta scores.
+#' @title Distribution of a F.beta Score Difference
+#' @description A function to show the distribution of a F.beta score difference.
 #' @importFrom graphics abline
 #' @importFrom utils tail
 #' @importFrom stats dbinom uniroot
