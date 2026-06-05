@@ -1,6 +1,6 @@
 
-#' @title Test for Difference in F.beta Between Two Classifiers
-#' @description A function to test the difference in F.beta between two classifiers.
+#' @title Hypothesis Testing for Comparative F.beta Scores
+#' @description A function to test the difference in F.beta scores between two classifiers.
 #' @importFrom graphics abline
 #' @importFrom utils tail
 #' @importFrom stats dbinom uniroot
@@ -11,6 +11,10 @@
 #' @param b2 Number of false positives for 2nd classifier.
 #' @param N Number of classification instances.
 #' @param s Number of positives.
+#' @param N2 Number of classification instances in 2nd independent dataset
+#' used for 2nd classifier. N2 = NULL denotes a common dataset is used to
+#' compare both classifiers.
+#' @param s2 Number of positives in 2nd independent dataset.
 #' @param Fb0 Null distribution is generated using the sample F.beta if Fb0 = "est";
 #' Null distribution is generated using all possible F.beta if Fb0 = NULL.
 #' @param beta beta.
@@ -31,6 +35,7 @@ testFbTwo <- function(d1=9, b1=2,
                       d2=12, b2=3,
                       Fb0="est",
                       N=50, s=20,
+                      N2=NULL, s2=NULL,
                       beta=1,
                       alternative=c("two.sided", "less", "greater"),
                       normal.approx=c("auto", "TRUE", "FALSE")) {
@@ -38,11 +43,14 @@ testFbTwo <- function(d1=9, b1=2,
   alternative <- match.arg(alternative)
   normal.approx <- match.arg(normal.approx)
 
+  if(is.null(N2)) {N2 <- N; s2 <- s}
+  if(is.null(s2)) s2 <- s
+
   beta2 <- beta^2
   one.plus.beta2 <- (1+beta2)
 
   fb1 <- one.plus.beta2*d1/(d1 + b1 + s*beta2)
-  fb2 <- one.plus.beta2*d2/(d2 + b2 + s*beta2)
+  fb2 <- one.plus.beta2*d2/(d2 + b2 + s2*beta2)
 
   if(!is.null(Fb0) & !is.numeric(Fb0)) {
 
@@ -61,12 +69,12 @@ testFbTwo <- function(d1=9, b1=2,
     pp1 <- d1/(d1+b1); pp2 <- d2/(d2+b2)
     ps1 <- d1/s; ps2 <- d2/s
     pp.ave <- (pp1+pp2)/2; ps.ave <- (ps1+ps2)/2
-    #pp.ave <- (d1+d2)/(d1+d2+b1+b2); ps.ave <- (d1+d2)/(s+s)
 
     out <- Two.Classifier.Cond.Test.beta(d1, b1,
                                          d2, b2,
                                          pp=pp.ave, ps=ps.ave,
                                          N=N, s=s,
+                                         N2=N2, s2=s2,
                                          beta=beta,
                                          alternative=alternative,
                                          normal.approx=normal.approx)
@@ -96,7 +104,6 @@ testFbTwo <- function(d1=9, b1=2,
         pp1 <- d1/(d1+b1); pp2 <- d2/(d2+b2)
         ps1 <- d1/s; ps2 <- d2/s
         pp.ave <- (pp1+pp2)/2; ps.ave <- (ps1+ps2)/2
-        #pp.ave <- (d1+d2)/(d1+d2+b1+b2); ps.ave <- (d1+d2)/(s+s)
 
         F1dist0 <- F1.cond.b(N=N, s=s, pp=pp.ave, ps=ps.ave, beta)
 
@@ -138,6 +145,7 @@ testFbTwo <- function(d1=9, b1=2,
                                         d2, b2,
                                         pp=x, ps=ps,
                                         N=N, s=s,
+                                        N2=N2, s2=s2,
                                         beta=beta,
                                         alternative=alternative,
                                         normal.approx=normal.approx)
@@ -160,7 +168,7 @@ testFbTwo <- function(d1=9, b1=2,
 
   }
 
-  round(out, 5)
+  round(out, 8)
 
 }
 
@@ -170,6 +178,7 @@ Two.Classifier.Cond.Test.beta <- function(d1=9, b1=2,
                                           d2=9, b2=2,
                                           pp=9/11, ps=0.75,
                                           N=50, s=20,
+                                          N2=NULL, s2=NULL,
                                           beta=1,
                                           alternative=c("two.sided", "less", "greater"),
                                           normal.approx=c("auto", "TRUE", "FALSE")) {
@@ -177,23 +186,38 @@ Two.Classifier.Cond.Test.beta <- function(d1=9, b1=2,
   alternative <- match.arg(alternative)
   normal.approx <- match.arg(normal.approx)
 
+  if(is.null(N2)) {N2 <- N; s2 <- s}
+  if(is.null(s2)) s2 <- s
+
   beta2 <- beta^2
   one.plus.beta2 <- (1+beta2)
 
   fb1 <- one.plus.beta2*d1/(d1 + b1 + s*beta2)
-  fb2 <- one.plus.beta2*d2/(d2 + b2 + s*beta2)
+  fb2 <- one.plus.beta2*d2/(d2 + b2 + s2*beta2)
 
   Fb0 <- one.plus.beta2*pp*ps/(beta2*pp + ps)
 
   fb <- fb1 - fb2
 
-  F1dist0 <- F1.cond.b(N=N, s=s, pp=pp, ps=ps, beta)
+  if(N==N2 & s==s2) {
+    F1dist0 <- F1.cond.b(N=N, s=s, pp=pp, ps=ps, beta)
+    x0 <- x1 <- 1:nrow(F1dist0)
+    xf10 <- xf11 <- F1dist0$f1s
+    yf10 <- yf11 <- F1dist0$pf1
+    idx.d <- idx.b <- (yf10 > 1E-6)
+  } else {
+    F1dist0 <- F1.cond.b(N=N, s=s, pp=pp, ps=ps, beta)
+    F1dist1 <- F1.cond.b(N=N2, s=s2, pp=pp, ps=ps, beta)
+    x0 <- 1:nrow(F1dist0)
+    x1 <- 1:nrow(F1dist1)
+    xf10 <- F1dist0$f1s
+    xf11 <- F1dist1$f1s
+    yf10 <- F1dist0$pf1
+    yf11 <- F1dist1$pf1
+    idx.d <- (yf10 > 1E-6)
+    idx.b <- (yf11 > 1E-6)
+  }
 
-  x0 <- x1 <- 1:nrow(F1dist0)
-  xf10 <- xf11 <- F1dist0$f1s
-  yf10 <- yf11 <- F1dist0$pf1
-
-  idx.d <- idx.b <- (yf10 > 1E-6)
   x0 <- x0[idx.d]
   x1 <- x1[idx.b]
 
@@ -201,7 +225,7 @@ Two.Classifier.Cond.Test.beta <- function(d1=9, b1=2,
 
   if(normal.approx=="TRUE") {
 
-    if(s < 10) {
+    if(s < 10 | s2 < 10) {
       print("Warning: a normal approximation is used. Suggest using the exact approach because s < 10.")
     }
 
